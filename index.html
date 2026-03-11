@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Number Guess Game</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#f5f5f5;
+transition:0.3s;
+}
+
+.dark{
+background:#121212;
+color:white;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+padding:20px;
+}
+
+input{
+padding:12px;
+font-size:18px;
+width:120px;
+text-align:center;
+}
+
+button{
+padding:10px 15px;
+font-size:16px;
+margin:5px;
+cursor:pointer;
+border:none;
+border-radius:6px;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+#history{
+margin-top:20px;
+text-align:left;
+}
+
+.historyItem{
+padding:6px;
+border-bottom:1px solid #ccc;
+animation:fade 0.3s;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(-5px);}
+to{opacity:1;}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎮 Number Guess Game</h1>
+
+<label>Difficulty:</label>
+<select id="difficulty">
+<option value="4">Easy (4 digits)</option>
+<option value="5">Medium (5 digits)</option>
+<option value="6">Hard (6 digits)</option>
+</select>
+
+<br><br>
+
+<input id="guessInput" placeholder="Enter guess">
+<button onclick="guess()">Guess</button>
+
+<br>
+
+<button onclick="restart()">Restart</button>
+<button onclick="toggleDark()">🌙 Dark Mode</button>
+
+<h3 id="result"></h3>
+<h4 id="remaining"></h4>
+
+<h3>Guess History</h3>
+<div id="history"></div>
+
+<h3>🏆 Leaderboard</h3>
+<div id="leaderboard"></div>
+
+</div>
+
+<script>
+
+let secret;
+let digits=4;
+let guessesLeft=20;
+
+function generateNumber(){
+secret="";
+for(let i=0;i<digits;i++){
+secret+=Math.floor(Math.random()*10);
+}
+}
+
+function startGame(){
+digits=parseInt(document.getElementById("difficulty").value);
+generateNumber();
+guessesLeft=20;
+
+document.getElementById("history").innerHTML="";
+document.getElementById("result").innerHTML="";
+document.getElementById("remaining").innerHTML="Guesses Left: "+guessesLeft;
+}
+
+function guess(){
+
+let guess=document.getElementById("guessInput").value;
+
+if(guess.length!=digits || isNaN(guess)){
+alert("Enter "+digits+" digit number");
+return;
+}
+
+let correct=0;
+
+for(let i=0;i<digits;i++){
+if(guess[i]===secret[i]) correct++;
+}
+
+guessesLeft--;
+
+document.getElementById("result").innerHTML=
+"Correct position digits: "+correct;
+
+document.getElementById("remaining").innerHTML=
+"Guesses Left: "+guessesLeft;
+
+let history=document.getElementById("history");
+
+let item=document.createElement("div");
+item.className="historyItem";
+item.innerText=guess+" → "+correct+" correct";
+
+history.prepend(item);
+
+if(guess===secret){
+document.getElementById("result").innerHTML="🎉 You Won!";
+saveScore(20-guessesLeft);
+}
+
+if(guessesLeft==0 && guess!==secret){
+document.getElementById("result").innerHTML="Game Over! Number was "+secret;
+}
+
+}
+
+function restart(){
+startGame();
+}
+
+function toggleDark(){
+document.body.classList.toggle("dark");
+}
+
+function saveScore(score){
+
+let scores=JSON.parse(localStorage.getItem("scores"))||[];
+
+scores.push(score);
+
+scores.sort((a,b)=>a-b);
+
+scores=scores.slice(0,5);
+
+localStorage.setItem("scores",JSON.stringify(scores));
+
+displayLeaderboard();
+
+}
+
+function displayLeaderboard(){
+
+let scores=JSON.parse(localStorage.getItem("scores"))||[];
+
+let board=document.getElementById("leaderboard");
+
+board.innerHTML="";
+
+scores.forEach((s,i)=>{
+let p=document.createElement("p");
+p.innerText=(i+1)+". "+s+" guesses";
+board.appendChild(p);
+});
+
+}
+
+startGame();
+displayLeaderboard();
+
+</script>
+
+</body>
+</html>
+
