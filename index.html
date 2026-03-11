@@ -2,145 +2,309 @@
 <html>
 <head>
 <title>Number Guess Game</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-font-family:Arial;
-text-align:center;
-background:#f5f5f5;
-transition:0.3s;
+font-family:'Segoe UI',sans-serif;
+background:#e2e8f0;
+color:#1a1a1a;
+margin:0;
 }
 
 .dark{
-background:#121212;
+background:#0f172a;
 color:white;
 }
 
-.container{
-max-width:500px;
-margin:auto;
-padding:20px;
+.main{
+display:flex;
+height:100vh;
 }
+
+/* GAME AREA */
+
+.game{
+flex:1;
+padding:30px;
+text-align:center;
+}
+
+/* HISTORY PANEL */
+
+.historyPanel{
+width:300px;
+border-left:2px solid #cbd5e1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* INPUT */
 
 input{
 padding:12px;
 font-size:18px;
 width:120px;
 text-align:center;
+border-radius:8px;
+border:2px solid #94a3b8;
 }
 
+/* TOP BUTTONS */
+
 button{
-padding:10px 15px;
+padding:12px 20px;
 font-size:16px;
 margin:5px;
-cursor:pointer;
 border:none;
-border-radius:6px;
+border-radius:10px;
+background:#1e293b;
+color:white;
+cursor:pointer;
+font-weight:bold;
 }
 
 button:hover{
 transform:scale(1.05);
+background:#0f172a;
 }
 
-#history{
-margin-top:20px;
-text-align:left;
+/* DARK MODE BUTTON COLORS */
+
+.dark .game > button{
+background:#9333ea;
+color:white;
 }
 
-.historyItem{
-padding:6px;
-border-bottom:1px solid #ccc;
-animation:fade 0.3s;
+.dark .game > button:hover{
+background:#7e22ce;
 }
 
-@keyframes fade{
-from{opacity:0; transform:translateY(-5px);}
-to{opacity:1;}
+/* KEYBOARD */
+
+.keyboard{
+display:grid;
+grid-template-columns:repeat(3,80px);
+gap:14px;
+justify-content:center;
+margin-top:25px;
+}
+
+.keyboard button{
+width:80px;
+height:70px;
+font-size:22px;
+border-radius:14px;
+background:#059669;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.keyboard button:hover{
+background:#047857;
+}
+
+.keyboard button:active{
+transform:scale(0.9);
+}
+
+/* SPECIAL KEYS */
+
+/* .zero{
+} */
+
+.enter{
+background:#2563eb;
+}
+
+.backspace{
+background:#a855f7;
+}
+
+/* HISTORY */
+
+.history{
+margin-top:10px;
+}
+
+.history div{
+background:#e0f2fe;
+padding:8px;
+margin:6px 0;
+border-radius:6px;
+font-weight:500;
+}
+
+.dark .history div{
+background:#1e293b;
+}
+
+/* PARTICLES */
+
+.particle{
+position:fixed;
+font-size:26px;
+pointer-events:none;
+animation:explode 3s forwards;
+}
+
+@keyframes explode{
+0%{transform:translate(0,0);opacity:1}
+100%{transform:translate(var(--x),var(--y));opacity:0}
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.main{
+flex-direction:column;
+}
+
+.historyPanel{
+width:100%;
+height:200px;
+border-left:none;
+border-top:2px solid #ddd;
+}
+
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<div class="main">
+
+<div class="game">
 
 <h1>🎮 Number Guess Game</h1>
 
-<label>Difficulty:</label>
-<select id="difficulty">
-<option value="4">Easy (4 digits)</option>
-<option value="5">Medium (5 digits)</option>
-<option value="6">Hard (6 digits)</option>
-</select>
+<button onclick="toggleTheme()">🌗 Theme</button>
 
 <br><br>
 
-<input id="guessInput" placeholder="Enter guess">
+<input id="guessInput" maxlength="4" placeholder="4 digits">
+
 <button onclick="guess()">Guess</button>
-
-<br>
-
-<button onclick="restart()">Restart</button>
-<button onclick="toggleDark()">🌙 Dark Mode</button>
 
 <h3 id="result"></h3>
 <h4 id="remaining"></h4>
 
-<h3>Guess History</h3>
-<div id="history"></div>
+<div class="keyboard">
 
-<h3>🏆 Leaderboard</h3>
-<div id="leaderboard"></div>
+<button onclick="addNum(1)">1</button>
+<button onclick="addNum(2)">2</button>
+<button onclick="addNum(3)">3</button>
+
+<button onclick="addNum(4)">4</button>
+<button onclick="addNum(5)">5</button>
+<button onclick="addNum(6)">6</button>
+
+<button onclick="addNum(7)">7</button>
+<button onclick="addNum(8)">8</button>
+<button onclick="addNum(9)">9</button>
+
+<button class="backspace" onclick="deleteNum()">⌫</button>
+<button class="zero" onclick="addNum(0)">0</button>
+<button class="enter" onclick="guess()">➡️</button>
+
+</div>
+
+</div>
+
+<div class="historyPanel">
+
+<h3>📜 Guess History</h3>
+<div class="history" id="history"></div>
+
+</div>
 
 </div>
 
 <script>
 
-let secret;
-let digits=4;
+let secret=Math.floor(Math.random()*9000+1000).toString();
 let guessesLeft=20;
 
-function generateNumber(){
-secret="";
-for(let i=0;i<digits;i++){
-secret+=Math.floor(Math.random()*10);
-}
-}
-
-function startGame(){
-digits=parseInt(document.getElementById("difficulty").value);
-generateNumber();
-guessesLeft=20;
-
-document.getElementById("history").innerHTML="";
-document.getElementById("result").innerHTML="";
 document.getElementById("remaining").innerHTML="Guesses Left: "+guessesLeft;
+
+function toggleTheme(){
+document.body.classList.toggle("dark");
+}
+
+function addNum(n){
+
+let input=document.getElementById("guessInput");
+
+if(input.value.length<4){
+input.value+=n;
+}
+
+}
+
+function deleteNum(){
+
+let input=document.getElementById("guessInput");
+input.value=input.value.slice(0,-1);
+
+}
+
+function explode(emojis){
+
+let duration=3000;
+let interval=200;
+
+let blast=setInterval(()=>{
+
+for(let i=0;i<6;i++){
+
+let particle=document.createElement("div");
+particle.className="particle";
+
+particle.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+
+particle.style.left=Math.random()*100+"vw";
+particle.style.top=Math.random()*100+"vh";
+
+particle.style.setProperty("--x",(Math.random()*400-200)+"px");
+particle.style.setProperty("--y",(Math.random()*400-200)+"px");
+
+document.body.appendChild(particle);
+
+setTimeout(()=>particle.remove(),3000);
+
+}
+
+},interval);
+
+setTimeout(()=>clearInterval(blast),duration);
+
 }
 
 function guess(){
 
 let guess=document.getElementById("guessInput").value;
 
-if(guess.length!=digits || isNaN(guess)){
-alert("Enter "+digits+" digit number");
+if(guess.length!=4 || isNaN(guess)){
+alert("Enter 4 digits");
 return;
 }
 
 let correct=0;
 
-for(let i=0;i<digits;i++){
-if(guess[i]===secret[i]) correct++;
+for(let i=0;i<4;i++){
+if(guess[i]==secret[i]){
+correct++;
+}
 }
 
 guessesLeft--;
-
-document.getElementById("result").innerHTML=
-"Correct position digits: "+correct;
 
 document.getElementById("remaining").innerHTML=
 "Guesses Left: "+guessesLeft;
@@ -148,67 +312,60 @@ document.getElementById("remaining").innerHTML=
 let history=document.getElementById("history");
 
 let item=document.createElement("div");
-item.className="historyItem";
 item.innerText=guess+" → "+correct+" correct";
 
 history.prepend(item);
 
-if(guess===secret){
-document.getElementById("result").innerHTML="🎉 You Won!";
-saveScore(20-guessesLeft);
+if(correct==3){
+
+document.getElementById("result").innerHTML="🌌 Lets close this deal!";
+explode(["🌌","🌙","⭐","✨","💫"]);
+
 }
 
-if(guessesLeft==0 && guess!==secret){
+else if(correct>0){
+
+document.getElementById("result").innerHTML="SLAYY 🔪 "+correct+" correct!";
+explode(["✨","🔪","💥"]);
+
+}
+
+else{
+
+let coldMessages=[
+"❄️ Chill out bro",
+"🧊 Ice cold",
+"🚫 No vibes detected",
+"🙅‍♀️ Not even close",
+"🌫️ Lost in the fog",
+"🥶 Arctic level wrong",
+"🔍 Try again detective"
+];
+
+let msg=coldMessages[Math.floor(Math.random()*coldMessages.length)];
+
+document.getElementById("result").innerHTML=msg;
+
+}
+
+if(guess==secret){
+
+document.getElementById("result").innerHTML="🎉 YOU WON!";
+explode(["🎉","🌸","✨","🍃"]);
+
+}
+
+if(guessesLeft==0 && guess!=secret){
+
 document.getElementById("result").innerHTML="Game Over! Number was "+secret;
-}
 
 }
 
-function restart(){
-startGame();
-}
-
-function toggleDark(){
-document.body.classList.toggle("dark");
-}
-
-function saveScore(score){
-
-let scores=JSON.parse(localStorage.getItem("scores"))||[];
-
-scores.push(score);
-
-scores.sort((a,b)=>a-b);
-
-scores=scores.slice(0,5);
-
-localStorage.setItem("scores",JSON.stringify(scores));
-
-displayLeaderboard();
+document.getElementById("guessInput").value="";
 
 }
-
-function displayLeaderboard(){
-
-let scores=JSON.parse(localStorage.getItem("scores"))||[];
-
-let board=document.getElementById("leaderboard");
-
-board.innerHTML="";
-
-scores.forEach((s,i)=>{
-let p=document.createElement("p");
-p.innerText=(i+1)+". "+s+" guesses";
-board.appendChild(p);
-});
-
-}
-
-startGame();
-displayLeaderboard();
 
 </script>
 
 </body>
 </html>
-
