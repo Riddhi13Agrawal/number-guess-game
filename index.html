@@ -114,9 +114,6 @@ transform:scale(0.9);
 
 /* SPECIAL KEYS */
 
-/* .zero{
-} */
-
 .enter{
 background:#2563eb;
 }
@@ -147,7 +144,7 @@ background:#1e293b;
 
 .particle{
 position:fixed;
-font-size:26px;
+font-size:30px;
 pointer-events:none;
 animation:explode 3s forwards;
 }
@@ -163,11 +160,17 @@ animation:explode 3s forwards;
 
 .main{
 flex-direction:column;
+height:auto;
+}
+
+.game{
+padding:20px;
 }
 
 .historyPanel{
 width:100%;
-height:200px;
+max-height:250px;
+overflow-y:auto;
 border-left:none;
 border-top:2px solid #ddd;
 }
@@ -211,7 +214,7 @@ border-top:2px solid #ddd;
 <button onclick="addNum(9)">9</button>
 
 <button class="backspace" onclick="deleteNum()">⌫</button>
-<button class="zero" onclick="addNum(0)">0</button>
+<button onclick="addNum(0)">0</button>
 <button class="enter" onclick="guess()">➡️</button>
 
 </div>
@@ -258,11 +261,11 @@ input.value=input.value.slice(0,-1);
 function explode(emojis){
 
 let duration=3000;
-let interval=200;
+let interval=150;
 
 let blast=setInterval(()=>{
 
-for(let i=0;i<6;i++){
+for(let i=0;i<8;i++){
 
 let particle=document.createElement("div");
 particle.className="particle";
@@ -277,13 +280,17 @@ particle.style.setProperty("--y",(Math.random()*400-200)+"px");
 
 document.body.appendChild(particle);
 
-setTimeout(()=>particle.remove(),3000);
+setTimeout(()=>{
+particle.remove();
+},3000);
 
 }
 
 },interval);
 
-setTimeout(()=>clearInterval(blast),duration);
+setTimeout(()=>{
+clearInterval(blast);
+},duration);
 
 }
 
@@ -318,7 +325,7 @@ history.prepend(item);
 
 if(correct==3){
 
-document.getElementById("result").innerHTML="🌌 Lets close this deal!";
+document.getElementById("result").innerHTML="🌌 SO CLOSE! 3 correct!";
 explode(["🌌","🌙","⭐","✨","💫"]);
 
 }
