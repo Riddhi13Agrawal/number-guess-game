@@ -1,183 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Number Guess Game</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
+<link rel="stylesheet" href="css/styles.css">
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:#e2e8f0;
-color:#1a1a1a;
-margin:0;
-}
-
-.dark{
-background:#0f172a;
-color:white;
-}
-
-.main{
-display:flex;
-height:100vh;
-}
-
-/* GAME AREA */
-
-.game{
-flex:1;
-padding:30px;
-text-align:center;
-}
-
-/* HISTORY PANEL */
-
-.historyPanel{
-width:300px;
-border-left:2px solid #cbd5e1;
-padding:20px;
-overflow-y:auto;
-}
-
-/* INPUT */
-
-input{
-padding:12px;
-font-size:18px;
-width:120px;
-text-align:center;
-border-radius:8px;
-border:2px solid #94a3b8;
-}
-
-/* TOP BUTTONS */
-
-button{
-padding:12px 20px;
-font-size:16px;
-margin:5px;
-border:none;
-border-radius:10px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-font-weight:bold;
-}
-
-button:hover{
-transform:scale(1.05);
-background:#0f172a;
-}
-
-/* DARK MODE BUTTON COLORS */
-
-.dark .game > button{
-background:#9333ea;
-color:white;
-}
-
-.dark .game > button:hover{
-background:#7e22ce;
-}
-
-/* KEYBOARD */
-
-.keyboard{
-display:grid;
-grid-template-columns:repeat(3,80px);
-gap:14px;
-justify-content:center;
-margin-top:25px;
-}
-
-.keyboard button{
-width:80px;
-height:70px;
-font-size:22px;
-border-radius:14px;
-background:#059669;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-}
-
-.keyboard button:hover{
-background:#047857;
-}
-
-.keyboard button:active{
-transform:scale(0.9);
-}
-
-/* SPECIAL KEYS */
-
-.enter{
-background:#2563eb;
-}
-
-.backspace{
-background:#a855f7;
-}
-
-/* HISTORY */
-
-.history{
-margin-top:10px;
-}
-
-.history div{
-background:#e0f2fe;
-padding:8px;
-margin:6px 0;
-border-radius:6px;
-font-weight:500;
-}
-
-.dark .history div{
-background:#1e293b;
-}
-
-/* PARTICLES */
-
-.particle{
-position:fixed;
-font-size:30px;
-pointer-events:none;
-animation:explode 3s forwards;
-}
-
-@keyframes explode{
-0%{transform:translate(0,0);opacity:1}
-100%{transform:translate(var(--x),var(--y));opacity:0}
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-.main{
-flex-direction:column;
-height:auto;
-}
-
-.game{
-padding:20px;
-}
-
-.historyPanel{
-width:100%;
-max-height:250px;
-overflow-y:auto;
-border-left:none;
-border-top:2px solid #ddd;
-}
-
-}
-
-</style>
 </head>
 
 <body>
@@ -188,13 +18,13 @@ border-top:2px solid #ddd;
 
 <h1>🎮 Number Guess Game</h1>
 
-<button onclick="toggleTheme()">🌗 Theme</button>
+<button class="primary" onclick="toggleTheme()">🌗 Theme</button>
 
 <br><br>
 
 <input id="guessInput" maxlength="4" placeholder="4 digits">
 
-<button onclick="guess()">Guess</button>
+<button class="primary" onclick="guess()">Guess</button>
 
 <h3 id="result"></h3>
 <h4 id="remaining"></h4>
@@ -215,7 +45,7 @@ border-top:2px solid #ddd;
 
 <button class="backspace" onclick="deleteNum()">⌫</button>
 <button onclick="addNum(0)">0</button>
-<button class="enter" onclick="guess()">➡️</button>
+<button class="enter" onclick="guess()">➡</button>
 
 </div>
 
@@ -224,155 +54,14 @@ border-top:2px solid #ddd;
 <div class="historyPanel">
 
 <h3>📜 Guess History</h3>
-<div class="history" id="history"></div>
+
+<div id="history" class="history"></div>
 
 </div>
 
 </div>
 
-<script>
-
-let secret=Math.floor(Math.random()*9000+1000).toString();
-let guessesLeft=20;
-
-document.getElementById("remaining").innerHTML="Guesses Left: "+guessesLeft;
-
-function toggleTheme(){
-document.body.classList.toggle("dark");
-}
-
-function addNum(n){
-
-let input=document.getElementById("guessInput");
-
-if(input.value.length<4){
-input.value+=n;
-}
-
-}
-
-function deleteNum(){
-
-let input=document.getElementById("guessInput");
-input.value=input.value.slice(0,-1);
-
-}
-
-function explode(emojis){
-
-let duration=3000;
-let interval=150;
-
-let blast=setInterval(()=>{
-
-for(let i=0;i<8;i++){
-
-let particle=document.createElement("div");
-particle.className="particle";
-
-particle.innerText=emojis[Math.floor(Math.random()*emojis.length)];
-
-particle.style.left=Math.random()*100+"vw";
-particle.style.top=Math.random()*100+"vh";
-
-particle.style.setProperty("--x",(Math.random()*400-200)+"px");
-particle.style.setProperty("--y",(Math.random()*400-200)+"px");
-
-document.body.appendChild(particle);
-
-setTimeout(()=>{
-particle.remove();
-},3000);
-
-}
-
-},interval);
-
-setTimeout(()=>{
-clearInterval(blast);
-},duration);
-
-}
-
-function guess(){
-
-let guess=document.getElementById("guessInput").value;
-
-if(guess.length!=4 || isNaN(guess)){
-alert("Enter 4 digits");
-return;
-}
-
-let correct=0;
-
-for(let i=0;i<4;i++){
-if(guess[i]==secret[i]){
-correct++;
-}
-}
-
-guessesLeft--;
-
-document.getElementById("remaining").innerHTML=
-"Guesses Left: "+guessesLeft;
-
-let history=document.getElementById("history");
-
-let item=document.createElement("div");
-item.innerText=guess+" → "+correct+" correct";
-
-history.prepend(item);
-
-if(correct==3){
-
-document.getElementById("result").innerHTML="🌌 SO CLOSE! 3 correct!";
-explode(["🌌","🌙","⭐","✨","💫"]);
-
-}
-
-else if(correct>0){
-
-document.getElementById("result").innerHTML="SLAYY 🔪 "+correct+" correct!";
-explode(["✨","🔪","💥"]);
-
-}
-
-else{
-
-let coldMessages=[
-"❄️ Chill out bro",
-"🧊 Ice cold",
-"🚫 No vibes detected",
-"🙅‍♀️ Not even close",
-"🌫️ Lost in the fog",
-"🥶 Arctic level wrong",
-"🔍 Try again detective"
-];
-
-let msg=coldMessages[Math.floor(Math.random()*coldMessages.length)];
-
-document.getElementById("result").innerHTML=msg;
-
-}
-
-if(guess==secret){
-
-document.getElementById("result").innerHTML="🎉 YOU WON!";
-explode(["🎉","🌸","✨","🍃"]);
-
-}
-
-if(guessesLeft==0 && guess!=secret){
-
-document.getElementById("result").innerHTML="Game Over! Number was "+secret;
-
-}
-
-document.getElementById("guessInput").value="";
-
-}
-
-</script>
+<script src="js/game.js"></script>
 
 </body>
 </html>
