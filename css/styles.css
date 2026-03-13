@@ -1,0 +1,193 @@
+body{
+font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+background:#e2e8f0;
+color:#1e293b;
+margin:0;
+transition:background .3s,color .3s;
+}
+
+.dark{
+background:#0f172a;
+color:#f1f5f9;
+}
+
+.main{
+display:flex;
+height:100vh;
+}
+
+.game{
+flex:1;
+padding:40px;
+text-align:center;
+}
+
+.historyPanel{
+width:300px;
+border-left:1px solid #cbd5e1;
+padding:20px;
+overflow-y:auto;
+background:#f8fafc;
+}
+
+.dark .historyPanel{
+background:#020617;
+border-left:1px solid #1e293b;
+}
+
+/* INPUT */
+
+input{
+padding:12px;
+font-size:18px;
+width:140px;
+text-align:center;
+border-radius:8px;
+border:2px solid #cbd5e1;
+outline:none;
+}
+
+input:focus{
+border-color:#2563eb;
+}
+
+/* BUTTONS */
+
+button{
+padding:12px 18px;
+font-size:15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+transition:.2s;
+}
+
+.primary{
+background:#1e293b;
+color:white;
+}
+
+.primary:hover{
+background:#0f172a;
+transform:translateY(-1px);
+}
+
+.dark .primary{
+background:#7c3aed;
+}
+
+.dark .primary:hover{
+background:#6d28d9;
+}
+
+/* KEYBOARD */
+
+.keyboard{
+display:grid;
+grid-template-columns:repeat(3,70px);
+gap:12px;
+justify-content:center;
+margin-top:30px;
+}
+
+.keyboard button{
+width:70px;
+height:60px;
+font-size:20px;
+border-radius:12px;
+background:#059669;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.keyboard button:hover{
+background:#047857;
+transform:scale(1.05);
+}
+
+/* SPECIAL KEYS */
+
+.enter{
+background:#2563eb !important;
+}
+
+.backspace{
+background:#a855f7 !important;
+}
+
+/* HISTORY */
+
+.history{
+margin-top:10px;
+}
+
+.history div{
+background:white;
+padding:10px;
+margin:6px 0;
+border-radius:6px;
+font-size:14px;
+border:1px solid #e2e8f0;
+}
+
+.dark .history div{
+background:#1e293b;
+border:1px solid #334155;
+}
+
+/* PARTICLES */
+
+.particle{
+position:fixed;
+font-size:28px;
+pointer-events:none;
+animation:explode 3s forwards;
+}
+
+@keyframes explode{
+0%{transform:translate(0,0);opacity:1}
+100%{transform:translate(var(--x),var(--y));opacity:0}
+}
+
+/* RESULT */
+
+#result{
+margin-top:20px;
+font-size:20px;
+font-weight:600;
+}
+
+#remaining{
+margin-top:4px;
+font-size:14px;
+color:#64748b;
+}
+
+.dark #remaining{
+color:#94a3b8;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.main{
+flex-direction:column;
+height:auto;
+}
+
+.game{
+padding:20px;
+}
+
+.historyPanel{
+width:100%;
+max-height:240px;
+border-left:none;
+border-top:1px solid #cbd5e1;
+}
+
+}
