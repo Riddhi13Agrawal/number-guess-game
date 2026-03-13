@@ -6,82 +6,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Number Guess Game</title>
 
-<link rel="stylesheet" href="css/styles.css">
-
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="main">
+<div class="main-container">
 
-<!-- GAME AREA -->
+    <!-- GAME SECTION -->
+    <div class="game-section">
 
-<div class="game">
+        <h1>🎮 Number Guess Game</h1>
 
-<h1>🎮 Number Guess Game</h1>
+        <button class="theme-btn" onclick="toggleTheme()">🌗 Theme</button>
 
-<button class="primary" onclick="toggleTheme()">🌓 Theme</button>
+        <br><br>
 
-<br><br>
+        <input id="guessInput" class="guess-input" placeholder="4 digits" maxlength="4">
 
-<input id="guessInput" maxlength="4" placeholder="4 digits">
+        <button class="guess-btn" onclick="guess()">Guess</button>
 
-<br><br>
+        <p id="remaining" class="guesses-left">Guesses Left: 20</p>
 
-<button class="primary" onclick="guess()">Guess</button>
+        <h3 id="result"></h3>
 
-<h3 id="result"></h3>
-<h4 id="remaining"></h4>
+        <!-- KEYPAD -->
+        <div class="keypad">
 
-<div class="keyboard">
+            <button onclick="addNum(1)">1</button>
+            <button onclick="addNum(2)">2</button>
+            <button onclick="addNum(3)">3</button>
 
-<button onclick="addNum(1)">1</button>
-<button onclick="addNum(2)">2</button>
-<button onclick="addNum(3)">3</button>
+            <button onclick="addNum(4)">4</button>
+            <button onclick="addNum(5)">5</button>
+            <button onclick="addNum(6)">6</button>
 
-<button onclick="addNum(4)">4</button>
-<button onclick="addNum(5)">5</button>
-<button onclick="addNum(6)">6</button>
+            <button onclick="addNum(7)">7</button>
+            <button onclick="addNum(8)">8</button>
+            <button onclick="addNum(9)">9</button>
 
-<button onclick="addNum(7)">7</button>
-<button onclick="addNum(8)">8</button>
-<button onclick="addNum(9)">9</button>
+            <button class="delete" onclick="deleteNum()">⌫</button>
+            <button onclick="addNum(0)">0</button>
+            <button class="enter" onclick="guess()">➡</button>
 
-<button class="backspace" onclick="deleteNum()">⌫</button>
-<button onclick="addNum(0)">0</button>
-<button class="enter" onclick="guess()">➡</button>
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <div class="dashboard-section">
+
+        <h2>📊 Game Dashboard</h2>
+
+        <div class="stat">🏆 Wins: <span id="wins">0</span></div>
+        <div class="stat">🎮 Games: <span id="games">0</span></div>
+        <div class="stat">📈 Win Rate: <span id="rate">0%</span></div>
+        <div class="stat">🔥 Streak: <span id="streak">0</span></div>
+        <div class="stat">🎯 Best Game: <span id="best">-</span></div>
+
+    </div>
+
+
+    <!-- HISTORY -->
+    <div class="history-section">
+
+        <h2>📜 Guess History</h2>
+
+        <div id="history" class="history-list"></div>
+
+    </div>
 
 </div>
 
-</div>
-
-<!-- SIDE PANEL -->
-
-<div class="sidePanel">
-
-<div class="dashboard">
-
-<h3>📊 Game Dashboard</h3>
-
-<div class="stats">
-<div>🏆 Wins: <span id="wins">0</span></div>
-<div>🎮 Games: <span id="games">0</span></div>
-<div>📊 Win Rate: <span id="rate">0%</span></div>
-<div>🔥 Streak: <span id="streak">0</span></div>
-<div>🎯 Best Game: <span id="best">-</span></div>
-</div>
-
-</div>
-
-<h3>📜 Guess History</h3>
-
-<div id="history" class="history"></div>
-
-</div>
-
-</div>
-
-<script src="js/game.js"></script>
+<!-- GAME SCRIPT -->
+<script src="game.js"></script>
 
 </body>
 </html>
