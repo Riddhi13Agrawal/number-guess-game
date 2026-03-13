@@ -68,4 +68,6 @@ index.html
 
 The game will open in your browser.
 
+Or go access this link and play with your friends- https://riddhi13agrawal.github.io/number-guess-game/
+
 ---
