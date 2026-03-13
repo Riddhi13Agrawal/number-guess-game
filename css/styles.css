@@ -8,27 +8,35 @@ font-family:Arial;
 body{
 background:#f4f6f8;
 padding:20px;
+transition:0.3s;
 }
 
-/* MAIN LAYOUT */
+/* ---------- DESKTOP LAYOUT ---------- */
 
 .main-container{
 display:grid;
 grid-template-columns:2fr 1fr;
+grid-template-rows:auto 1fr;
+grid-template-areas:
+"game dashboard"
+"game history";
 gap:25px;
 max-width:1100px;
 margin:auto;
 align-items:start;
 }
 
-/* GAME SECTION */
+/* ---------- GAME ---------- */
 
 .game-section{
+grid-area:game;
 background:white;
 padding:25px;
 border-radius:12px;
 text-align:center;
 }
+
+/* ---------- INPUT ---------- */
 
 .guess-input{
 width:200px;
@@ -40,22 +48,26 @@ border-radius:8px;
 border:1px solid #ccc;
 }
 
+/* ---------- THEME + GUESS BUTTONS ---------- */
+
+.theme-btn,
 .guess-btn{
-padding:10px 20px;
-background:#1f2b3a;
+background:#1b2028;
 color:white;
 border:none;
-border-radius:8px;
+border-radius:12px;
+padding:12px 22px;
 cursor:pointer;
-margin-left:10px;
+font-weight:600;
+transition:0.2s;
 }
 
-.guesses-left{
-margin-top:15px;
-color:#555;
+.theme-btn:hover,
+.guess-btn:hover{
+background:#374151;
 }
 
-/* KEYPAD */
+/* ---------- KEYPAD ---------- */
 
 .keypad{
 margin-top:25px;
@@ -80,51 +92,68 @@ transition:0.2s;
 transform:scale(1.05);
 }
 
-.delete{
-background:#9b5de5;
+/* Backspace button */
+
+.keypad button.delete{
+background:#7c3aed;
 }
 
-.enter{
-background:#2d6cdf;
+/* Enter button */
+
+.keypad button.enter{
+background:#2563eb;
 }
 
-/* DASHBOARD */
+/* ---------- GUESSES LEFT ---------- */
+
+.guesses-left{
+margin-top:15px;
+font-weight:700;
+color:#374151;
+}
+
+/* ---------- DASHBOARD ---------- */
 
 .dashboard-section{
+grid-area:dashboard;
 background:#4c1d95;
 color:white;
-padding:25px;
+padding:18px;
 border-radius:12px;
 }
 
 .dashboard-section h2{
-margin-bottom:20px;
+margin-bottom:15px;
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
 .stat{
 background:#0b1a3d;
-padding:12px;
-margin-bottom:12px;
+padding:10px;
 border-radius:8px;
 font-weight:bold;
+font-size:14px;
 }
 
-/* HISTORY */
+/* ---------- HISTORY ---------- */
 
 .history-section{
-grid-column:1 / span 2;
+grid-area:history;
 background:white;
 padding:25px;
 border-radius:12px;
-margin-top:10px;
 }
 
 .history-list{
 margin-top:10px;
 }
 
-/* ---------------- MOBILE ---------------- */
-
+/* ---------- MOBILE ---------- */
 @media (max-width:768px){
 
 .main-container{
@@ -133,13 +162,14 @@ flex-direction:column;
 gap:20px;
 }
 
-/* reset grid behavior */
+/* Title + theme remain first automatically */
 
-.history-section{
-grid-column:auto;
+.dashboard-section{
+order:3;
+margin:auto;
+width:100%;
+max-width:350px;
 }
-
-/* section order */
 
 .game-section{
 order:1;
@@ -149,11 +179,7 @@ order:1;
 order:2;
 }
 
-.dashboard-section{
-order:3;
-}
-
-/* responsive keypad */
+/* keypad responsive */
 
 .keypad{
 grid-template-columns:repeat(3,1fr);
@@ -168,4 +194,64 @@ width:100%;
 width:100%;
 }
 
+}
+/* ---------- DARK THEME ---------- */
+
+body.dark{
+background:#0f172a;
+color:white;
+}
+
+body.dark .game-section{
+background:#1e293b;
+}
+
+body.dark .history-section{
+background:#1e293b;
+}
+
+body.dark .guess-input{
+background:#0f172a;
+color:white;
+border:1px solid #444;
+}
+
+body.dark .dashboard-section{
+background:#312e81;
+}
+
+body.dark .stat{
+background:#020617;
+}
+
+/* Dark mode buttons */
+
+body.dark .theme-btn,
+body.dark .guess-btn{
+background:#4f0dbb;
+}
+
+/* Dark mode guesses text */
+
+body.dark .guesses-left{
+color:white;
+}
+
+.particle{
+position:fixed;
+font-size:30px;
+pointer-events:none;
+animation:explode 3s forwards;
+}
+
+@keyframes explode{
+0%{
+transform:translate(0,0);
+opacity:1;
+}
+
+100%{
+transform:translate(var(--x),var(--y));
+opacity:0;
+}
 }

@@ -57,25 +57,37 @@ input.value=input.value.slice(0,-1);
 
 function explode(emojis){
 
-for(let i=0;i<15;i++){
+let duration = 3000;
+let interval = 150;
 
-let particle=document.createElement("div");
+let blast = setInterval(()=>{
+
+for(let i=0;i<8;i++){
+
+let particle = document.createElement("div");
 particle.className="particle";
 
-particle.innerText=
-emojis[Math.floor(Math.random()*emojis.length)];
+particle.innerText = emojis[Math.floor(Math.random()*emojis.length)];
 
-particle.style.left=Math.random()*100+"vw";
-particle.style.top=Math.random()*100+"vh";
+particle.style.left = Math.random()*100 + "vw";
+particle.style.top = Math.random()*100 + "vh";
 
 particle.style.setProperty("--x",(Math.random()*400-200)+"px");
 particle.style.setProperty("--y",(Math.random()*400-200)+"px");
 
 document.body.appendChild(particle);
 
-setTimeout(()=>particle.remove(),3000);
+setTimeout(()=>{
+particle.remove();
+},3000);
 
 }
+
+},interval);
+
+setTimeout(()=>{
+clearInterval(blast);
+},duration);
 
 }
 
@@ -117,7 +129,7 @@ if(correct==3){
 
 document.getElementById("result").innerText=
 "🌌 So close! 3 correct!";
-explode(["🌌","🌙","⭐","✨"]);
+explode(["🌌","🌙","⭐","✨","🦄"]);
 
 }
 
@@ -125,15 +137,22 @@ else if(correct>0){
 
 document.getElementById("result").innerText=
 "🔥 "+correct+" correct!";
-explode(["✨","💥"]);
+explode(["✨","🪻","💥","🎉","🌻"]);
 
 }
 
 else{
 
 let coldMessages=[
-"❄️ Cold",
+"❄️ Let it Goooo",
+"🍪 Its okay, have a cookie",
+"🙊 Lets not say anything",
+"👹 BOO!",
+"🐍 Guess you are just not Ready For It...",
+"🦇 Let this story die",
+"🪄 Maybe in another timeline you got this",
 "🧊 Ice cold",
+"🤖 FAAHHHH",
 "🙅 Not even close",
 "🌫️ Lost in the fog"
 ];
@@ -148,7 +167,7 @@ coldMessages[Math.floor(Math.random()*coldMessages.length)];
 if(guess==secret){
 
 document.getElementById("result").innerText="🎉 You won!";
-explode(["🎉","✨","🌸"]);
+explode(["🎉","✨","🌸","🦚","👸","🍁"]);
 
 wins++;
 games++;
