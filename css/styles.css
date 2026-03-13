@@ -1,0 +1,222 @@
+
+/* GLOBAL */
+
+body{
+font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+background:#e2e8f0;
+margin:0;
+color:#1e293b;
+}
+
+.dark{
+background:#0f172a;
+color:#f1f5f9;
+}
+
+/* MAIN CARD */
+
+.main{
+max-width:1200px;
+margin:40px auto;
+display:flex;
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 40px rgba(0,0,0,0.15);
+}
+
+.dark .main{
+background:#020617;
+}
+
+/* GAME AREA */
+
+.game{
+flex:1;
+padding:40px;
+text-align:center;
+}
+
+/* SIDE PANEL */
+
+.sidePanel{
+width:340px;
+padding:25px;
+border-left:1px solid #e2e8f0;
+overflow-y:auto;
+}
+
+.dark .sidePanel{
+border-left:1px solid #1e293b;
+}
+
+/* INPUT */
+
+input{
+padding:12px;
+font-size:18px;
+width:150px;
+text-align:center;
+border-radius:8px;
+border:2px solid #cbd5e1;
+}
+
+/* BUTTON */
+
+button{
+padding:12px 18px;
+border:none;
+border-radius:8px;
+font-weight:600;
+cursor:pointer;
+}
+
+.primary{
+background:#1e293b;
+color:white;
+}
+
+.primary:hover{
+background:#0f172a;
+}
+
+/* KEYBOARD */
+
+.keyboard{
+display:grid;
+grid-template-columns:repeat(3,80px);
+gap:15px;
+justify-content:center;
+margin-top:30px;
+}
+
+.keyboard button{
+width:80px;
+height:70px;
+font-size:22px;
+border-radius:14px;
+background:#059669;
+color:white;
+font-weight:bold;
+}
+
+.keyboard button:hover{
+background:#047857;
+transform:scale(1.05);
+}
+
+/* SPECIAL KEYS */
+
+.enter{
+background:#2563eb !important;
+}
+
+.backspace{
+background:#a855f7 !important;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+margin-bottom:30px;
+background:#4c1d95; /* dark purple */
+padding:20px;
+border-radius:14px;
+color:white;
+font-weight:600;
+}
+
+.dashboard h3{
+margin-top:0;
+color:white;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.stats div{
+background:#0f172a; /* keep dark cells */
+padding:12px;
+border-radius:8px;
+text-align:center;
+font-size:14px;
+color:white;
+font-weight:bold;
+}
+
+.dashboard h3{
+margin-top:0;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.stats div{
+background:#0f172a;
+padding:10px;
+border-radius:8px;
+text-align:center;
+font-size:14px;
+}
+
+/* HISTORY */
+
+.history div{
+background:#f1f5f9;
+padding:10px;
+margin-bottom:6px;
+border-radius:6px;
+font-size:14px;
+}
+
+.dark .history div{
+background:#1e293b;
+}
+
+/* RESULT */
+
+#result{
+margin-top:20px;
+font-weight:600;
+font-size:18px;
+}
+
+/* PARTICLES */
+
+.particle{
+position:fixed;
+font-size:28px;
+pointer-events:none;
+animation:explode 3s forwards;
+}
+
+@keyframes explode{
+0%{transform:translate(0,0);opacity:1}
+100%{transform:translate(var(--x),var(--y));opacity:0}
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.main{
+flex-direction:column;
+}
+
+.sidePanel{
+width:100%;
+border-left:none;
+border-top:1px solid #e2e8f0;
+}
+
+.stats{
+grid-template-columns:1fr;
+}
+
+}
