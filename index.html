@@ -26,12 +26,20 @@
 
         <br><br>
 
+        <br><br>
+
+<div class="difficulty">
+<button onclick="setDifficulty(4)">Easy</button>
+<button onclick="setDifficulty(5)">Medium</button>
+<button onclick="setDifficulty(6)">Hard</button>
+</div>
+
         <!-- INPUT -->
         <input 
-        id="guessInput" 
-        class="guess-input" 
-        placeholder="4 digits"
-        maxlength="4">
+id="guessInput" 
+class="guess-input" 
+placeholder="Choose difficulty"
+maxlength="6">
 
         <button class="cell-btn guess-btn" onclick="guess()">Guess</button>
 

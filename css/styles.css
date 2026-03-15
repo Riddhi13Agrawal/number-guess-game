@@ -48,6 +48,21 @@ border-radius:8px;
 border:1px solid #ccc;
 }
 
+.difficulty button{
+margin:5px;
+padding:8px 14px;
+border:none;
+border-radius:8px;
+background:#16a34a;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.difficulty button:hover{
+background:#15803d;
+}
+
 /* ---------- THEME + GUESS BUTTONS ---------- */
 
 .theme-btn,

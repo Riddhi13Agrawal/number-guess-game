@@ -21,9 +21,44 @@ document.getElementById("rate").innerText = rate+"%";
 
 /* GAME */
 
-let secret = Math.floor(Math.random()*9000+1000).toString();
+let digits = 4;
+let secret;
 let guessesLeft = 20;
 let guessesUsed = 0;
+
+generateSecret();
+
+function generateSecret(){
+
+let min = Math.pow(10, digits-1);
+let max = Math.pow(10, digits) - min;
+
+secret = Math.floor(Math.random()*max + min).toString();
+
+}
+
+function setDifficulty(d){
+
+digits = d;
+
+guessesLeft = 20;
+guessesUsed = 0;
+
+generateSecret();
+
+let input = document.getElementById("guessInput");
+
+input.value = "";
+input.placeholder = digits + " digits";
+input.maxLength = digits;
+
+document.getElementById("history").innerHTML = "";
+document.getElementById("result").innerText = "";
+
+document.getElementById("remaining").innerText =
+"Guesses Left: " + guessesLeft;
+
+}
 
 document.getElementById("remaining").innerText =
 "Guesses Left: " + guessesLeft;
@@ -40,7 +75,8 @@ function addNum(n){
 
 let input=document.getElementById("guessInput");
 
-if(input.value.length<4){
+if(input.value.length < digits)
+{
 input.value+=n;
 }
 
@@ -97,14 +133,14 @@ function guess(){
 
 let guess=document.getElementById("guessInput").value;
 
-if(guess.length!=4 || isNaN(guess)){
-alert("Enter 4 digits");
+if(guess.length != digits || isNaN(guess)){
+alert("Enter " + digits + " digits");
 return;
 }
 
 let correct=0;
 
-for(let i=0;i<4;i++){
+for(let i=0;i<digits;i++){
 if(guess[i]==secret[i]) correct++;
 }
 
@@ -206,3 +242,5 @@ updateDashboard();
 document.getElementById("guessInput").value="";
 
 }
+
+setDifficulty(4);
