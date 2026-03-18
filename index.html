@@ -2,123 +2,134 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Number Guess Game</title>
-
-<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Guess Game</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-
+<div id="confetti-container"></div>
 <div class="main-container">
 
-    <!-- GAME SECTION -->
-    <div class="game-section">
+  <!-- LEFT SIDE -->
+  <div class="game-section">
 
-        <h1>🎮 Number Guess Game</h1>
+    <h1>🎮 Number Guess Game</h1>
 
-        <br>
+    <!-- CONTROLS -->
+     <br>
+    <div class="top-controls">
+      <button class="cell-btn theme-btn" onclick="toggleTheme()">🌗 Theme</button>
+      <button class="cell-btn info-btn" onclick="openInstructions()">📘 How to Play</button>
+    </div>
+<br>
+    <!-- DIFFICULTY -->
+    <div class="difficulty">
+      <button onclick="setDifficulty(4)">Easy</button>
+      <button onclick="setDifficulty(5)">Medium</button>
+      <button onclick="setDifficulty(6)">Hard</button>
+    </div>
 
-        <!-- THEME BUTTON -->
-        <button class="cell-btn theme-btn" onclick="toggleTheme()">🌗 Theme</button>
+    <!-- INPUT -->
+    <div class="input-row">
+      <input 
+        id="guessInput" 
+        class="guess-input" 
+        placeholder="Choose difficulty"
+        maxlength="6"
+      >
+      <button class="cell-btn guess-btn" onclick="guess()">Guess</button>
+    </div>
 
-        
+    <!-- STATUS -->
+    <p id="remaining" class="guesses-left">Guesses Left: 20</p>
+    <h3 id="result"></h3>
 
-        <br><br>
+    <!-- KEYPAD -->
+    <div class="keypad">
 
-<div class="difficulty">
-<button onclick="setDifficulty(4)">Easy</button>
-<button onclick="setDifficulty(5)">Medium</button>
-<button onclick="setDifficulty(6)">Hard</button>
-</div>
+      <button onclick="addNum(1)">1</button>
+      <button onclick="addNum(2)">2</button>
+      <button onclick="addNum(3)">3</button>
 
-        <!-- INPUT -->
-        <input 
-id="guessInput" 
-class="guess-input" 
-placeholder="Choose difficulty"
-maxlength="6">
+      <button onclick="addNum(4)">4</button>
+      <button onclick="addNum(5)">5</button>
+      <button onclick="addNum(6)">6</button>
 
-        <button class="cell-btn guess-btn" onclick="guess()">Guess</button>
+      <button onclick="addNum(7)">7</button>
+      <button onclick="addNum(8)">8</button>
+      <button onclick="addNum(9)">9</button>
 
-        <p id="remaining" class="guesses-left">Guesses Left: 20</p>
-
-        <h3 id="result"></h3>
-
-
-        <!-- KEYPAD -->
-        <div class="keypad">
-
-            <button onclick="addNum(1)">1</button>
-            <button onclick="addNum(2)">2</button>
-            <button onclick="addNum(3)">3</button>
-
-            <button onclick="addNum(4)">4</button>
-            <button onclick="addNum(5)">5</button>
-            <button onclick="addNum(6)">6</button>
-
-            <button onclick="addNum(7)">7</button>
-            <button onclick="addNum(8)">8</button>
-            <button onclick="addNum(9)">9</button>
-
-            <button class="delete" onclick="deleteNum()">⌫</button>
-            <button onclick="addNum(0)">0</button>
-            <button class="enter" onclick="guess()">➡</button>
-
-        </div>
+      <button class="delete" onclick="deleteNum()">⌫</button>
+      <button onclick="addNum(0)">0</button>
+      <button class="enter" onclick="guess()">➡</button>
 
     </div>
 
+  </div>
 
+  <!-- RIGHT SIDE -->
+  <div class="right-panel">
+
+    
 
     <!-- DASHBOARD -->
     <div class="dashboard-section">
+      <h2>📊 Game Dashboard</h2>
 
-        <h2>📊 Game Dashboard</h2>
+      <div class="dashboard-grid">
 
-        <div class="dashboard-grid">
+        <div class="stat">🏆 Wins: <span id="wins">0</span></div>
+        <div class="stat">🎮 Games: <span id="games">0</span></div>
+        <div class="stat">📈 Win Rate: <span id="rate">0%</span></div>
+        <div class="stat">🔥 Streak: <span id="streak">0</span></div>
 
-            <div class="stat">
-                🏆 Wins: <span id="wins">0</span>
-            </div>
-
-            <div class="stat">
-                🎮 Games: <span id="games">0</span>
-            </div>
-
-            <div class="stat">
-                📈 Win Rate: <span id="rate">0%</span>
-            </div>
-
-            <div class="stat">
-                🔥 Streak: <span id="streak">0</span>
-            </div>
-
-            <div class="stat" style="grid-column:1/3">
-                🎯 Best Game: <span id="best">-</span>
-            </div>
-
+        <div class="stat" style="grid-column:1/3">
+          🎯 Best Game: <span id="best">-</span>
         </div>
 
+      </div>
     </div>
-
-
 
     <!-- HISTORY -->
     <div class="history-section">
-
-        <h2>📜 Guess History</h2>
-
-        <div id="history" class="history-list"></div>
-
+      <h2>📜 Guess History</h2>
+      <div id="history" class="history-list"></div>
     </div>
+
+  </div>
 
 </div>
 
+<!-- MODAL -->
+<div id="instructionsModal" class="modal">
+  <div class="modal-content fancy-modal">
+    
+    <span class="close" onclick="closeInstructions()">×</span>
 
-<!-- GAME SCRIPT -->
+    <h2 class="modal-title">🎮 How to Play</h2>
+
+    <p class="modal-desc">
+      Guess the secret number within <b>20 attempts</b>.
+    </p>
+
+    <ul class="rules">
+      <li>🎯 Choose difficulty (4 / 5 / 6 digits).</li>
+      <li>⌨️ Enter your guess using keypad or keyboard.</li>
+      <li>🔍 See how many digits are correct after each guess.</li>
+      <li>⚠️ Correct = right digit in the right position.</li>
+      <li>🔥 Use feedback to improve your next guess.</li>
+      <li>🏆 Guess correctly before attempts run out!</li>
+    </ul>
+
+    <div class="tip-box">
+      💡 <b>Tip:</b> Start random → refine using feedback
+    </div>
+
+  </div>
+</div>
+
 <script src="js/game.js"></script>
 
 </body>

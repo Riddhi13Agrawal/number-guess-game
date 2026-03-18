@@ -1,272 +1,518 @@
+/* ---------- RESET ---------- */
+
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
 }
+
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+/* 🔥 Make main buttons bold */
+
+.theme-btn,
+.info-btn,
+.difficulty button,
+.guess-btn{
+  font-weight: 700;
+}
+
+/* b, strong {
+  font-weight: bold;
+} */
+
+/* ---------- BODY ---------- */
 
 body{
-background:#f4f6f8;
-padding:20px;
-transition:0.3s;
+  background:#f4f6f8;
+  padding:20px;
+  transition:0.3s;
 }
 
-/* ---------- DESKTOP LAYOUT ---------- */
+/* ---------- DARK MODE ---------- */
+
+body.dark{
+  background:#0f172a;
+  color:white;
+}
+
+/* ---------- LAYOUT ---------- */
 
 .main-container{
-display:grid;
-grid-template-columns:2fr 1fr;
-grid-template-rows:auto 1fr;
-grid-template-areas:
-"game dashboard"
-"game history";
-gap:25px;
-max-width:1100px;
-margin:auto;
-align-items:start;
+  display:grid;
+  grid-template-columns:2.5fr 1fr;
+  gap:20px;
+  max-width:1100px;
+  margin:auto;
 }
 
-/* ---------- GAME ---------- */
+/* ---------- LEFT ---------- */
 
 .game-section{
-grid-area:game;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+body.dark .game-section{
+  background:#1e293b;
+}
+
+/* ---------- RIGHT PANEL ---------- */
+
+.right-panel{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+/* ---------- TOP CONTROLS ---------- */
+
+.top-controls{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.top-controls button{
+  width:100%;
 }
 
 /* ---------- INPUT ---------- */
 
+.input-row{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:15px 0;
+}
+
 .guess-input{
-width:200px;
-padding:10px;
-margin:15px 0;
-font-size:18px;
-text-align:center;
-border-radius:8px;
-border:1px solid #ccc;
+  padding:10px;
+  width:200px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+body.dark .guess-input{
+  background:#334155;
+  color:white;
+  border:none;
+}
+
+/* ---------- DIFFICULTY ---------- */
+
+.difficulty{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:15px 0;
 }
 
 .difficulty button{
-margin:5px;
-padding:8px 14px;
-border:none;
-border-radius:8px;
-background:#16a34a;
-color:white;
-cursor:pointer;
-font-weight:bold;
+  background:#16a34a;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.difficulty button:hover{
-background:#15803d;
+/* ---------- BUTTONS ---------- */
+
+.theme-btn{
+  background:#1b2028;
+  color:white;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
 }
 
-/* ---------- THEME + GUESS BUTTONS ---------- */
+.info-btn{
+  background:#e5e7eb;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+}
 
-.theme-btn,
+body.dark .info-btn{
+  background:#334155;
+  color:white;
+}
+
 .guess-btn{
-background:#1b2028;
-color:white;
-border:none;
-border-radius:12px;
-padding:12px 22px;
-cursor:pointer;
-font-weight:600;
-transition:0.2s;
-}
-
-.theme-btn:hover,
-.guess-btn:hover{
-background:#374151;
+  background:#374151;
+  color:white;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
 }
 
 /* ---------- KEYPAD ---------- */
 
 .keypad{
-margin-top:25px;
-display:grid;
-grid-template-columns:repeat(3,80px);
-gap:12px;
-justify-content:center;
+  display:grid;
+  grid-template-columns:repeat(3,80px);
+  gap:10px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+
+
+.keypad button:hover{
+  transform:scale(1.05);
+}
+
+/* 🔥 ENTER BUTTON */
+.keypad .enter{
+  background:#2563eb;
 }
 
 .keypad button{
-height:60px;
-font-size:20px;
-border:none;
-border-radius:12px;
-background:#0f8f63;
-color:white;
-cursor:pointer;
-transition:0.2s;
+  height:60px;
+  background:#0f8f63;
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+
+  /* merged */
+  transition: transform 0.08s ease, opacity 0.08s;
+  touch-action: manipulation;
 }
 
-.keypad button:hover{
-transform:scale(1.05);
+.keypad button:active{
+  transform: scale(0.92);
+  opacity: 0.8;
 }
 
-/* Backspace button */
 
-.keypad button.delete{
-background:#7c3aed;
+
+/* 🔥 BACKSPACE BUTTON */
+.keypad .delete{
+  background:#7c3aed;
 }
 
-/* Enter button */
+/* DARK MODE KEYPAD */
 
-.keypad button.enter{
-background:#2563eb;
+body.dark .keypad button{
+  background:#065f46;
 }
 
-/* ---------- GUESSES LEFT ---------- */
+body.dark .keypad .enter{
+  background:#1d4ed8;
+}
+
+body.dark .keypad .delete{
+  background:#6d28d9;
+}
+
+/* ---------- STATUS ---------- */
 
 .guesses-left{
-margin-top:15px;
-font-weight:700;
-color:#374151;
+  margin-top:10px;
+  font-weight:700;
 }
 
 /* ---------- DASHBOARD ---------- */
 
 .dashboard-section{
-grid-area:dashboard;
-background:#4c1d95;
-color:white;
-padding:18px;
-border-radius:12px;
-}
-
-.dashboard-section h2{
-margin-bottom:15px;
+  background:#4c1d95;
+  color:white;
+  padding:15px;
+  border-radius:12px;
 }
 
 .dashboard-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .stat{
-background:#0b1a3d;
-padding:10px;
-border-radius:8px;
-font-weight:bold;
-font-size:14px;
+  background:#0b1a3d;
+  padding:10px;
+  border-radius:8px;
+  font-weight:600;
+}
+
+.stat span{
+  font-weight:bold;
+}
+
+/* DARK DASHBOARD */
+
+body.dark .dashboard-section{
+  background:#312e81;
+}
+
+body.dark .stat{
+  background:#1e293b;
 }
 
 /* ---------- HISTORY ---------- */
 
 .history-section{
-grid-area:history;
-background:white;
-padding:25px;
-border-radius:12px;
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  /* font-weight: normal; */
 }
 
-.history-list{
-margin-top:10px;
-}
-
-/* ---------- MOBILE ---------- */
-@media (max-width:768px){
-
-.main-container{
-display:flex;
-flex-direction:column;
-gap:20px;
-}
-
-/* Title + theme remain first automatically */
-
-.dashboard-section{
-order:3;
-margin:auto;
-width:100%;
-max-width:350px;
-}
-
-.game-section{
-order:1;
-}
-
-.history-section{
-order:2;
-}
-
-/* keypad responsive */
-
-.keypad{
-grid-template-columns:repeat(3,1fr);
-width:100%;
-}
-
-.keypad button{
-width:100%;
-}
-
-.guess-input{
-width:100%;
-}
-
-}
-/* ---------- DARK THEME ---------- */
-
-body.dark{
-background:#0f172a;
-color:white;
-}
-
-body.dark .game-section{
-background:#1e293b;
+#history div{
+  font-weight: 400;
+  padding: 4px 0; /* normal */
 }
 
 body.dark .history-section{
-background:#1e293b;
+  background:#1e293b;
 }
 
-body.dark .guess-input{
-background:#0f172a;
-color:white;
-border:1px solid #444;
+/* ---------- MODAL ---------- */
+
+.modal{
+  display: none;          /* ✅ stays hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+
+  align-items: center;    /* keep these */
+  justify-content: center;
 }
 
-body.dark .dashboard-section{
-background:#312e81;
+.modal.show{
+  display: flex;   /* ✅ only when opened */
 }
 
-body.dark .stat{
-background:#020617;
+.modal-content{
+  width:90%;
+  max-width:500px;
+
+  max-height:90vh;      /* 🔥 THIS IS KEY */
+  overflow-y:auto;      /* 🔥 ENABLE SCROLL */
+
+  border-radius:12px;
 }
 
-/* Dark mode buttons */
-
-body.dark .theme-btn,
-body.dark .guess-btn{
-background:#4f0dbb;
+body.dark .modal-content{
+  background:#1e293b;
+  color:white;
 }
 
-/* Dark mode guesses text */
+/* ---------- CONFETTI ---------- */
 
-body.dark .guesses-left{
-color:white;
+#confetti-container{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:999;
 }
 
 .particle{
-position:fixed;
-font-size:30px;
-pointer-events:none;
-animation:explode 3s forwards;
+  position:fixed;
+  font-size:20px;
+  pointer-events:none;
+  animation: fallAnim 1.5s linear forwards;
+  z-index: 9999;
 }
 
-@keyframes explode{
-0%{
-transform:translate(0,0);
-opacity:1;
+/* 🔥 Falling animation */
+@keyframes fallAnim{
+  from{
+    transform: translate(0,0);
+    opacity:1;
+  }
+  to{
+    transform: translate(var(--x), var(--y));
+    opacity:0;
+  }
 }
 
-100%{
-transform:translate(var(--x),var(--y));
-opacity:0;
+@keyframes explodeAnim{
+  to{
+    transform: translate(var(--x), var(--y));
+    opacity:0;
+  }
 }
+
+/* ---------- MOBILE ---------- */
+
+/* @media (max-width:768px){
+
+  .main-container{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .keypad{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .guess-input{
+    width:100%;
+  }
+
+}  */
+
+/* 🌟 Modal Styling Upgrade */
+.fancy-modal{
+  position: relative;
+  border-radius: 16px;
+  padding: 25px;
+  background: linear-gradient(135deg, #ffffff, #f1f5f9);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: modalPop 0.25s ease;
+
+  max-height: 85vh;
+  overflow-y: auto;
+
+  scroll-behavior: smooth; /* merged */
+}
+
+.modal-content{
+  width:90%;
+  max-width:500px;
+
+  max-height:90vh;      /* 🔥 THIS IS KEY */
+  overflow-y:auto;      /* 🔥 ENABLE SCROLL */
+
+  border-radius:12px;
+}
+
+/* Custom scrollbar (desktop) */
+.fancy-modal::-webkit-scrollbar{
+  width: 6px;
+}
+
+.fancy-modal::-webkit-scrollbar-thumb{
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+body.dark .fancy-modal::-webkit-scrollbar-thumb{
+  background: #475569;
+}
+
+/* 🎮 Title */
+.modal-title{
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+/* 📄 Description */
+.modal-desc{
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+/* 📋 Rules list */
+.rules{
+  list-style: none;
+  padding-left: 0;
+}
+
+.rules li{
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.rules li:hover{
+  background: rgba(0,0,0,0.05);
+  transform: translateX(4px);
+}
+
+/* 💡 Tip box */
+.tip-box{
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  font-size: 14px;
+}
+
+/* ❌ Close button */
+.close{
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.close:hover{
+  opacity: 1;
+}
+
+/* ✨ Pop animation */
+@keyframes modalPop{
+  from{
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to{
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 🌙 Dark mode support */
+body.dark .fancy-modal{
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: white;
+}
+
+body.dark .modal-desc{
+  color: #cbd5f5;
+}
+
+body.dark .rules li:hover{
+  background: rgba(255,255,255,0.05);
+}
+
+body.dark .tip-box{
+  background: linear-gradient(135deg, #78350f, #92400e);
+  color: #fef3c7;
+}
+
+@media (max-width:768px){
+
+  .main-container{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .history-section{
+    order:2;
+  }
+
+  .dashboard-section{
+    order:3;
+  }
+
+   .fancy-modal{
+    max-height: 90vh;
+    padding: 20px;
+  }
+
 }

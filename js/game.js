@@ -5,6 +5,8 @@ let games = Number(localStorage.getItem("games")) || 0;
 let streak = Number(localStorage.getItem("streak")) || 0;
 let best = localStorage.getItem("best") || "-";
 
+const container = document.getElementById("confetti-container");
+
 updateDashboard();
 
 function updateDashboard(){
@@ -78,6 +80,7 @@ let input=document.getElementById("guessInput");
 if(input.value.length < digits)
 {
 input.value+=n;
+ if (navigator.vibrate) navigator.vibrate?.(10);
 }
 
 }
@@ -86,45 +89,48 @@ function deleteNum(){
 
 let input=document.getElementById("guessInput");
 input.value=input.value.slice(0,-1);
+ if (navigator.vibrate) navigator.vibrate?.(10);
 
 }
 
 /* EXPLOSION */
-
 function explode(emojis){
 
-let duration = 3000;
-let interval = 150;
+  let duration = 2000;
+  let interval = 120;
 
-let blast = setInterval(()=>{
+  let blast = setInterval(()=>{
 
-for(let i=0;i<8;i++){
+    for(let i=0;i<10;i++){
 
-let particle = document.createElement("div");
-particle.className="particle";
+      let particle = document.createElement("div");
+      particle.className = "particle";
 
-particle.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+      particle.innerText =
+        emojis[Math.floor(Math.random()*emojis.length)];
 
-particle.style.left = Math.random()*100 + "vw";
-particle.style.top = Math.random()*100 + "vh";
+      // 🔥 RANDOM POSITION ACROSS SCREEN
+      particle.style.left = Math.random()*100 + "vw";
 
-particle.style.setProperty("--x",(Math.random()*400-200)+"px");
-particle.style.setProperty("--y",(Math.random()*400-200)+"px");
+      // 🔥 START ABOVE SCREEN
+      particle.style.top = "-20px";
 
-document.body.appendChild(particle);
+      // 🎯 RANDOM SPREAD (slight sideways drift)
+      particle.style.setProperty("--x",(Math.random()*200 - 100)+"px");
 
-setTimeout(()=>{
-particle.remove();
-},3000);
+      // 🎯 FALL DOWN FULL SCREEN
+      particle.style.setProperty("--y","100vh");
 
-}
+      particle.style.transform = `rotate(${Math.random()*360}deg)`;
 
-},interval);
+      document.body.appendChild(particle);
 
-setTimeout(()=>{
-clearInterval(blast);
-},duration);
+      setTimeout(()=>particle.remove(),1500);
+    }
 
+  },interval);
+
+  setTimeout(()=>clearInterval(blast),duration);
 }
 
 /* GUESS */
@@ -204,6 +210,7 @@ if(guess==secret){
 
 document.getElementById("result").innerText="🎉 You won!";
 explode(["🎉","✨","🌸","🦚","👸","🍁"]);
+// blastConfetti(); // 🔥 ADD THIS
 
 wins++;
 games++;
@@ -229,6 +236,8 @@ if(guessesLeft==0 && guess!=secret){
 document.getElementById("result").innerText=
 "Game Over! Number was "+secret;
 
+explode(["🩻","🩸","😶","👾","🕸️"]);
+
 games++;
 streak=0;
 
@@ -243,4 +252,61 @@ document.getElementById("guessInput").value="";
 
 }
 
+function openInstructions(){
+  document.getElementById("instructionsModal").classList.add("show");
+}
+
+function closeInstructions(){
+  document.getElementById("instructionsModal").classList.remove("show");
+}
+
+
+
 setDifficulty(4);
+
+// function blastConfetti() {
+//   const container = document.getElementById("confetti-container");
+
+//   for (let i = 0; i < 80; i++) {
+//     const confetti = document.createElement("div");
+
+//     confetti.style.position = "absolute";
+//     confetti.style.width = "8px";
+//     confetti.style.height = "8px";
+//     confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+
+//     confetti.style.top = "0px";
+//     confetti.style.left = Math.random() * window.innerWidth + "px";
+
+//     confetti.style.opacity = "0.8";
+//     confetti.style.transform = `rotate(${Math.random()*360}deg)`;
+
+//     confetti.style.transition = "top 1s ease-out";
+
+//     container.appendChild(confetti);
+
+//     setTimeout(() => {
+//       confetti.style.top = window.innerHeight + "px";
+//     }, 50);
+
+//     setTimeout(() => {
+//       confetti.remove();
+//     }, 1200);
+//   }
+// }
+
+document.addEventListener("keydown", (e) => {
+
+  if(e.key >= "0" && e.key <= "9"){
+    addNum(e.key);
+  }
+
+  if(e.key === "Backspace"){
+    deleteNum();
+  }
+
+  if(e.key === "Enter"){
+    guess();
+  }
+
+});
