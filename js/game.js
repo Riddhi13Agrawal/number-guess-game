@@ -5,6 +5,9 @@ let games = Number(localStorage.getItem("games")) || 0;
 let streak = Number(localStorage.getItem("streak")) || 0;
 let best = localStorage.getItem("best") || "-";
 
+let gameOver = false;
+let maxGuesses = 20;
+
 const container = document.getElementById("confetti-container");
 
 updateDashboard();
@@ -39,9 +42,11 @@ secret = Math.floor(Math.random()*max + min).toString();
 
 }
 
-function setDifficulty(d){
+function setDifficulty(d)
+{
 
 digits = d;
+gameOver = false;
 
 guessesLeft = 20;
 guessesUsed = 0;
@@ -135,7 +140,9 @@ function explode(emojis){
 
 /* GUESS */
 
-function guess(){
+function guess()
+{
+    if(gameOver) return;
 
 let guess=document.getElementById("guessInput").value;
 
@@ -208,6 +215,7 @@ coldMessages[Math.floor(Math.random()*coldMessages.length)];
 
 if(guess==secret){
 
+    gameOver = true;  
 document.getElementById("result").innerText="🎉 You won!";
 explode(["🎉","✨","🌸","🦚","👸","🍁"]);
 // blastConfetti(); // 🔥 ADD THIS
@@ -226,12 +234,20 @@ localStorage.setItem("streak",streak);
 localStorage.setItem("best",best);
 
 updateDashboard();
+setTimeout(() => setDifficulty(digits), 1500);
+return;
 
 }
 
 /* LOSE */
 
-if(guessesLeft==0 && guess!=secret){
+if(guessesLeft==0 && guess!=secret)
+    {
+
+        gameOver = true;   // ✅ STOP GAME
+guessesLeft = 0;
+document.getElementById("remaining").innerText =
+"Guesses Left: 0";
 
 document.getElementById("result").innerText=
 "Game Over! Number was "+secret;
@@ -245,6 +261,9 @@ localStorage.setItem("games",games);
 localStorage.setItem("streak",streak);
 
 updateDashboard();
+//auto restart
+document.getElementById("remaining").innerText =
+"Guesses Left: 0";
 
 }
 
